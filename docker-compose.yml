@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  app:
+    build: ./
+    restart: on-failure
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url":"jdbc:h2:mem:testdb",
+        "spring.datasource.driverClassName":"org.h2.Driver",
+        "spring.datasource.username":"sa",
+        "spring.datasource.password":"password",
+        "spring.jpa.database-platform":"org.hibernate.dialect.H2Dialect",
+        "spring.jpa.defer-datasource-initialization":"true",
+        "spring.h2.console.enabled":"true",
+        "spring.main.allow-circular-references":"true",
+        "spring.sql.init.mode":"always",
+        "spring.sql.init.platform":"h2",
+        "jwt.secret":"turanulus",
+        "jwt.get.token.uri":"/authenticate"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
